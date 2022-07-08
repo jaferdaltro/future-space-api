@@ -1,6 +1,7 @@
 class CreateConfigurations < ActiveRecord::Migration[7.0]
   def change
     create_table :configurations do |t|
+      t.integer :_id
       t.integer :launch_library_id
       t.string :url
       t.string :name

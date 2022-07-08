@@ -1,6 +1,7 @@
 class CreateLocations < ActiveRecord::Migration[7.0]
   def change
     create_table :locations do |t|
+      t.integer :_id
       t.string :url
       t.string :name
       t.string :country_code

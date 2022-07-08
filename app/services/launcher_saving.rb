@@ -1,8 +1,13 @@
 class LauncherSaving
+  class NotSavedLauncherError < StandardError; end
+
+  attr_reader :launch, :errors
+
   def initialize(limit, page) #limit=2000, page=100
     response = FetchLaunchData.new(limit, page).call
     list_data = response.deep_symbolize_keys
     @launchers_params = list_data[:results]
+    @errors = {}
   end
 
   def call
@@ -11,9 +16,24 @@ class LauncherSaving
 
   private
 
+  def save!(record)
+    save_record!(record) if record.present?
+    raise NotSavedLauncherError if @errors.present?
+  rescue => e
+    raise NotSavedLauncherError
+  end
+
+  def save_record!(record)
+    record.save!
+  rescue ActiveRecord::RecordInvalid
+    @errors.merge!(record.errors.messages)
+  end
+
   def parse_and_save_data
+    return {} if @launchers_params.nil?
     @launchers_params.each do |launch|
       launcher_id = build_launcher(launch)
+      build_status(launch, launcher_id)
       build_launch_service_provider(launch, launcher_id)
       rocket_id = build_rocket(launch, launcher_id)
       build_configuration(launch, rocket_id)
@@ -47,27 +67,28 @@ class LauncherSaving
       key.imported_t = DateTime.now
       key.status = 1
     end
-    if launcher.save
-      puts "save launch with name #{launcher.name}"
-      launcher.id
-    else
-      puts "not saved"
+    save!(launcher)
+    launcher.id
+  end
+
+  def build_status(launch, launcher_id)
+    status = LauncherStatus.new do |key|
+      key._id = launch[:status][:id]
+      key.name = launch[:status][:name]
+      key.launcher_id = launcher_id
     end
+    save!(status)
   end
 
   def build_launch_service_provider(launch, launcher_id)
     lsp = LaunchServiceProvider.new do |key|
       key._id = launch[:launch_service_provider][:id]
-      key.url = launch[:launch_service_provider][:url],
-      key.name = launch[:launch_service_provider][:name],
-      key.name = launch[:launch_service_provider][:type],
+      key.url = launch[:launch_service_provider][:url]
+      key.name = launch[:launch_service_provider][:name]
+      key.name = launch[:launch_service_provider][:type]
       key.launcher_id = launcher_id
     end
-    if lsp.save
-      puts "save Launche Service Provider with name #{lsp.name}"
-    else
-      puts "not saved"
-    end
+    save!(lsp)
   end
 
   def build_rocket(launch, launcher_id)
@@ -75,12 +96,8 @@ class LauncherSaving
       key._id = launch[:rocket][:id]
       key.launcher_id = launcher_id
     end
-    if rocket.save
-      puts "save Rocket with id #{rocket.id}"
-      rocket.id
-    else
-      puts "not saved"
-    end
+    save!(rocket)
+    rocket.id
   end
 
   def build_configuration(launch, rocket_id)
@@ -94,11 +111,7 @@ class LauncherSaving
       key.variant = launch[:rocket][:configuration][:variant]
       key.rocket_id = rocket_id
     end
-    if configuration.save
-      puts "save configuration with name #{configuration.name}"
-    else
-      puts "not saved"
-    end
+    save!(configuration)
   end
 
   def build_pad(launch, launcher_id)
@@ -116,12 +129,8 @@ class LauncherSaving
       key.total_launch_count = launch[:pad][:total_launch_count]
       key.launcher_id = launcher_id
     end
-    if pad.save
-      puts "save pad with name #{pad.name}"
-      pad.id
-    else
-      puts "not saved"
-    end
+    save!(pad)
+    pad.id
   end
 
   def build_mission(launch, launcher_id)
@@ -130,11 +139,7 @@ class LauncherSaving
       key.name = launch[:mission][:name]
       key.launcher_id = launcher_id
     end
-    if mission.save
-      puts "save mission with name #{mission.name}"
-    else
-      puts "not saved"
-    end
+    save!(mission)
   end
 
   def build_location(launch, pad_id)
@@ -143,10 +148,6 @@ class LauncherSaving
       key.name = launch[:pad][:location][:name]
       key.pad_id = pad_id
     end
-    if location.save
-      puts "save location with name #{location.name}"
-    else
-      puts "not saved"
-    end
+    save!(location)
   end
 end

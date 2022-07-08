@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_08_133528) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "configurations", force: :cascade do |t|
+    t.integer "_id"
     t.integer "launch_library_id"
     t.string "url"
     t.string "name"
@@ -28,6 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
   end
 
   create_table "launch_service_providers", force: :cascade do |t|
+    t.integer "_id"
     t.string "url"
     t.string "name"
     t.string "type"
@@ -35,6 +37,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["launcher_id"], name: "index_launch_service_providers_on_launcher_id"
+  end
+
+  create_table "launcher_statuses", force: :cascade do |t|
+    t.integer "_id"
+    t.string "name"
+    t.bigint "launcher_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["launcher_id"], name: "index_launcher_statuses_on_launcher_id"
   end
 
   create_table "launchers", force: :cascade do |t|
@@ -65,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
   end
 
   create_table "locations", force: :cascade do |t|
+    t.integer "_id"
     t.string "url"
     t.string "name"
     t.string "country_code"
@@ -78,6 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
   end
 
   create_table "missions", force: :cascade do |t|
+    t.integer "_id"
     t.string "name"
     t.bigint "launcher_id", null: false
     t.datetime "created_at", null: false
@@ -86,6 +99,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
   end
 
   create_table "pads", force: :cascade do |t|
+    t.integer "_id"
     t.string "url"
     t.string "agency_id"
     t.string "name"
@@ -103,6 +117,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
   end
 
   create_table "rockets", force: :cascade do |t|
+    t.integer "_id"
     t.bigint "launcher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -134,6 +149,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_004043) do
 
   add_foreign_key "configurations", "rockets"
   add_foreign_key "launch_service_providers", "launchers"
+  add_foreign_key "launcher_statuses", "launchers"
   add_foreign_key "locations", "pads"
   add_foreign_key "missions", "launchers"
   add_foreign_key "pads", "launchers"

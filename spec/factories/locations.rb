@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :location do
-    url { "MyString" }
+    url { Faker::Internet.url }
     name { "MyString" }
     country_code { "MyString" }
     map_image { "MyString" }

@@ -2,10 +2,10 @@ FactoryBot.define do
   factory :pad do
     url { "MyString" }
     agency_id { "MyString" }
-    name { "MyString" }
-    info_url { "MyString" }
-    wiki_url { "MyString" }
-    map_url { "MyString" }
+    name { Faker::Name.name }
+    info_url { Faker::Internet.url }
+    wiki_url { Faker::Internet.url }
+    map_url { Faker::Internet.url }
     latitude { "MyString" }
     longitude { "MyString" }
     map_image { "MyString" }

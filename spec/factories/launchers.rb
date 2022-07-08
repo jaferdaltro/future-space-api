@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :launcher do
     id { "MyString" }
-    url { "MyString" }
+    url { Faker::Internet.url }
     launch_library_id { "MyString" }
     slug { "MyString" }
     name { "MyString" }

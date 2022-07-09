@@ -18,7 +18,6 @@ class LaunchersController < ApiController
 
   # DELETE /launchers/:launchId: Remover o launch da base
   def destroy
-    binding.pry
     @launcher.destroy!
   rescue
     render_errors(fields: @launcher.errors.messages)

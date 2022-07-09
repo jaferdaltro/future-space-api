@@ -85,7 +85,7 @@ class LauncherSaving
       key._id = launch[:launch_service_provider][:id]
       key.url = launch[:launch_service_provider][:url]
       key.name = launch[:launch_service_provider][:name]
-      key.name = launch[:launch_service_provider][:type]
+      key.name = launch[:launch_service_provider][:kind]
       key.launcher_id = launcher_id
     end
     save!(lsp)

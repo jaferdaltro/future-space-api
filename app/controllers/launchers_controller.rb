@@ -1,4 +1,4 @@
-class LaunchersController < ApplicationController
+class LaunchersController < ApiController
   before_action :set_launcher, only: %i(show update destroy)
 
   # GET /launchers/:launchId: Obter a informação somente de um launch da base de dados
@@ -18,6 +18,7 @@ class LaunchersController < ApplicationController
 
   # DELETE /launchers/:launchId: Remover o launch da base
   def destroy
+    binding.pry
     @launcher.destroy!
   rescue
     render_errors(fields: @launcher.errors.messages)

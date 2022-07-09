@@ -1,5 +1,5 @@
 json.launcher do
-  json.(@launcher, :_id, :name, :url, :launch_library_id, :slug, :net, :window_end, :window_start,
+  json.(@launcher, :id, :_id, :name, :url, :launch_library_id, :slug, :net, :window_end, :window_start,
   :inhold, :tbdtime, :tbddate, :probability, :holdreason, :failreason, :hashtag, :webcast_live,
   :image,  :infographic, :program)
   json.status @launcher.status

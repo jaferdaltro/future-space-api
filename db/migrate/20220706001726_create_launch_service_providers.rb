@@ -4,7 +4,7 @@ class CreateLaunchServiceProviders < ActiveRecord::Migration[7.0]
       t.integer :_id
       t.string :url
       t.string :name
-      t.string :type
+      t.string :kind
       t.references :launcher, null: false, foreign_key: true
 
       t.timestamps

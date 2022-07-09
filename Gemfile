@@ -19,10 +19,7 @@ gem 'whenever', require: false
 group :development, :test do
   gem 'awesome_print', '~> 1.9', '>= 1.9.2'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem 'factory_bot_rails', '~> 6.2'
-  gem 'faker', '~> 2.21'
   gem 'pry-rails', '~> 0.3.9'
-  gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
 end
 
 group :development do

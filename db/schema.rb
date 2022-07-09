@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_08_133528) do
     t.integer "_id"
     t.string "url"
     t.string "name"
-    t.string "type"
+    t.string "kind"
     t.bigint "launcher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

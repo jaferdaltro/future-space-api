@@ -36,9 +36,9 @@ Um dashboard mais clean pra ver lançamentos de foguetes.
 
         $ whenever --update-crontab
 
-## Testes
+7. Inciar o Sidekiq
 
-        $ rspec
+        $  bundle exec sidekiq
 
 ## REST API
 

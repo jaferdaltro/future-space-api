@@ -6,5 +6,6 @@ class Launcher < ApplicationRecord
   has_one :launcher_status
   has_one :rocket
   has_one :pad
+  has_one :mission
   enum status: { draft: 1, trash: 2, published: 3 }
 end

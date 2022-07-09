@@ -21,6 +21,6 @@ set :output, "log/cron_log.log"
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.minute do 
+every :day, at: '12:20am'  do
   runner "LauncherJob.perform_later"
 end

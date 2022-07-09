@@ -1,4 +1,7 @@
 class Launcher < ApplicationRecord
+  include NameSearchable
+  include Paginatable
+
   has_one :launch_service_provider
   has_one :launcher_status
   has_one :rocket

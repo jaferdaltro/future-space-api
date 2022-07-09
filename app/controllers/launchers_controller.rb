@@ -33,6 +33,11 @@ class LaunchersController < ApplicationController
     params.permit({ seach: :name }, { order: {} }, :page, :length)
   end
 
+  def save_launcher
+    @launcher.save!
+    render :show
+  end
+
 
   def launcher_params
     return {} unless params.has_key?(:launcher)

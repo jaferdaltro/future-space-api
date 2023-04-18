@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class LaunchersController < ApiController
-  before_action :set_launcher, only: %i(show update destroy)
+  before_action :set_launcher, only: %i[show update destroy]
 
   # GET /launchers/:launchId: Obter a informação somente de um launch da base de dados
   def show; end
@@ -13,13 +15,13 @@ class LaunchersController < ApiController
   # PUT /launchers/:launchId: Será responsável por receber atualizações realizadas
   def update
     @launcher.attributes = launcher_params
-   save_launcher
+    save_launcher
   end
 
   # DELETE /launchers/:launchId: Remover o launch da base
   def destroy
     @launcher.destroy!
-  rescue
+  rescue StandardError
     render_errors(fields: @launcher.errors.messages)
   end
 
@@ -38,12 +40,11 @@ class LaunchersController < ApiController
     render :show
   end
 
-
   def launcher_params
-    return {} unless params.has_key?(:launcher)
-    params.require(:launcher).permit(:id, :name, :url, :launch_library_id, :slug, :net, :window_end, :window_start,
-      :inhold, :tbdtime, :tbddate, :probability, :holdreason, :failreason, :hashtag, :webcast_live,
-      :image,  :infographic, :program)
+    return {} unless params.key?(:launcher)
 
+    params.require(:launcher).permit(:id, :name, :url, :launch_library_id, :slug, :net, :window_end, :window_start,
+                                     :inhold, :tbdtime, :tbddate, :probability, :holdreason, :failreason, :hashtag,
+                                     :webcast_live, :image, :infographic, :program)
   end
 end

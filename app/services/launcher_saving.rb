@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class LauncherSaving
   class NotSavedLauncherError < StandardError; end
 
   attr_reader :launch, :errors
 
-  def initialize(limit, page) #limit=2000, page=100
+  # limit=2000, page=100
+  def initialize(limit, page)
     response = FetchLaunchData.new(limit, page).call
     list_data = response.deep_symbolize_keys
     @launchers_params = list_data[:results]
@@ -19,7 +22,7 @@ class LauncherSaving
   def save!(record)
     save_record!(record) if record.present?
     raise NotSavedLauncherError if @errors.present?
-  rescue => e
+  rescue StandardError
     raise NotSavedLauncherError
   end
 
@@ -31,6 +34,7 @@ class LauncherSaving
 
   def parse_and_save_data
     return {} if @launchers_params.nil?
+
     @launchers_params.each do |launch|
       launcher_id = build_launcher(launch)
       build_status(launch, launcher_id)
@@ -46,8 +50,8 @@ class LauncherSaving
   def build_launcher(launch)
     launcher = Launcher.new do |key|
       key._id = launch[:id]
-      key.url =launch[:url]
-      key.launch_library_id= launch[:launch_library_id]
+      key.url = launch[:url]
+      key.launch_library_id = launch[:launch_library_id]
       key.slug = launch[:slug]
       key.name = launch[:name]
       key.net = launch[:net]

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 class LauncherLoading
   attr_reader :records, :pagination
+
   def initialize(searchable_model, params = {})
     @searchable_model = searchable_model
     @params = params || {}
@@ -11,9 +14,9 @@ class LauncherLoading
     fix_pagination_values
     filtered = @searchable_model.search_by_name(@params.dig(:search, :name))
     @records = filtered.order(@params[:order].to_h).paginate(@pagination[:page],
-      @pagination[:length])
+                                                             @pagination[:length])
     total_pages = (filtered.count / @pagination[:length].to_f).ceil
-    @pagination.merge!(total: filtered.count, total_pages: total_pages )
+    @pagination.merge!(total: filtered.count, total_pages:)
   end
 
   private
@@ -23,4 +26,3 @@ class LauncherLoading
     @pagination[:length] = @searchable_model.model::MAX_PER_PAGE if @pagination[:length] <= 0
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLaunchServiceProviders < ActiveRecord::Migration[7.0]
   def change
     create_table :launch_service_providers do |t|

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Launcher < ApplicationRecord
   include NameSearchable
   include Paginatable

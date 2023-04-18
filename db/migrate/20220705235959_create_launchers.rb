@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLaunchers < ActiveRecord::Migration[7.0]
   def change
     create_table :launchers do |t|
@@ -25,6 +27,6 @@ class CreateLaunchers < ActiveRecord::Migration[7.0]
 
       t.timestamps
     end
-    add_index :launchers, [:url, :name, :program]
+    add_index :launchers, %i[url name program]
   end
 end

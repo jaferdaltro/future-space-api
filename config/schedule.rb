@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Use this file to easily define all of your cron jobs.
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
@@ -7,7 +9,7 @@
 #
 # env :PATH, ENV['PATH']
 set :environment, 'staging'
-set :output, "log/cron_log.log"
+set :output, 'log/cron_log.log'
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -21,6 +23,6 @@ set :output, "log/cron_log.log"
 
 # Learn more: http://github.com/javan/whenever
 
-every :day, at: '12:20am'  do
-  runner "LauncherJob.perform_later"
+every :day, at: '12:20am' do
+  runner 'LauncherJob.perform_later'
 end
